@@ -1,0 +1,71 @@
+*,*::before,*::after{
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+    font-family:"Raleway",sans-serif;
+  
+    color:#fff;
+    width:100%;
+  
+}
+
+.App{
+    height:100%;
+    display:grid;
+    gap :0;
+    width:100%;
+    /* grid-template-columns: 35%,65%; */
+    display: flex;
+    /* flex-direction: column; */
+    /* justify-content:center; */
+    /* align-content:center; */
+}
+.weather-today{
+    height:100%;
+    background-color:#1E213A;
+}
+.container{
+    padding:1rem;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    text-align:center;
+}
+.weather-today .container{
+    height:100vh;
+    justify-content:center;
+    position:sticky;
+    top:0px;
+    display: flex;
+    justify-content: space-around;
+}
+.inputField, .inputBtn{
+    padding:.5em;
+    border-radius:20px;
+    border:none;
+    background-color:grey;
+    /* font-weight: bold; */
+    font-size:1rem;
+    color:white;
+}
+.inputField{
+    width:200px;
+    margin-right:.7em;
+}
+.inputField:active, .inputField:focus{
+    outline:none;
+}
+.inputBtn{
+  width: 5rem; 
+}
+.tempmin_max, .location{
+    color:#A09FB1;
+    font-weight:600;
+    font-size:.9rem;
+}
+.App .highlights{
+    background-color:yellow !important ;
+}
