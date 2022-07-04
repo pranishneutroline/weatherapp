@@ -1,22 +1,39 @@
-import React, { useEffect, useState } from "react";
-import {TiLocation} from "react-icons/ti"
+import React, { useState } from "react";
+import { TiLocation } from "react-icons/ti";
+import axios from "axios";
+import moment from "moment";
 import "./temp.css";
 
 function Temp() {
-  const [city, setCity] = useState("");
-  const [search, setSearch] = useState("pokhara");
+  const [temperature, setTemperature] = useState("");
+  const [desc, setDesc] = useState("");
+  const [city, setCity] = useState("Kathmandu");
+  const[max,setMax]= useState("")
+  const[min,setMin]= useState()
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&appid=18746cf2f2c367f806b385b9e23f0890`;
-      const response = await fetch(url);
-      // console.log(response);
-      const responseInJson = await response.json();
-      console.log(responseInJson);
-      setCity(responseInJson.main);
-    };
-    fetchApi();
-  }, [search]);
+  const getWeatherData = (city) => {
+    axios({
+      method: "GET",
+      url: `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=9fbbbf4d9de651b40b9d0d188076b2ae`,
+    })
+      .then((response) => {
+        console.log(response.data.main.temp);
+        // Kelvin to Celsius
+
+        setTemperature(response.data.main.temp);
+        setDesc(response.data.weather[0].main);
+        setMax(response.data.main.temp_max);
+        setMin(response.data.main.temp_min);
+      
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+          setTemperature(error.response.data.cod)
+          setCity(error.response.data.message)
+        }
+      });
+  };
 
   return (
     <>
@@ -24,39 +41,45 @@ function Temp() {
         <section className="weather-today">
           <div className="container">
             <article className="weather-city">
-              <form className="city-form">
+              <h1 className="heading">Weather App</h1>
+              <div className="city-form">
                 <input
                   type="search"
                   className="inputField"
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                  }}
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
                   placeholder="Search city"
                 />
-                <input type="button" value="submit" className="inputBtn"/>
-              </form>
+                <button
+                  className="inputBtn"
+                  onClick={() => {
+                    getWeatherData(city);
+                  }}
+                >Submit</button>
+              </div>
             </article>
 
             <article className="weather-data">
               <h1 className="weather-temp">
                 <span className="temp-value">
                   {!city ? (
-                    <p>No data found</p>
+                    <p>data not found</p>
                   ) : (
                     <>
                       <div className="info">
-                      <h1 className="temp">
-                          {city.temp}
-                          <span> deg C</span>
+                        <h1 className="temp">
+                          <span>
+                            {" "}
+                            {Math.round(temperature * 100) / 100}℃ - {desc}
+                          </span>
                         </h1>
-                       
-                       {/* date */}
+                        {moment().format("MMM Do YYYY")}
+                        {/* {new Date().toLocaleString()} */}
                         <h3 className="tempmin_max">
-                          Min: {city.temp_min} deg cel Max:{city.temp_max} deg
-                          cel
+                          Min:{min}℃ Max:{max}℃
                         </h3>
                         <h2 className="location" value={city}>
-                        <TiLocation /> {search}
+                          <TiLocation /> {city}
                         </h2>
                       </div>
                     </>
@@ -65,13 +88,6 @@ function Temp() {
               </h1>
             </article>
           </div>
-        </section>
-
-        <section class="highlights">
-            <article>
-              
-            </article>
-            <article></article>
         </section>
       </main>
     </>

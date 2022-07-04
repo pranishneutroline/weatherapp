@@ -9,7 +9,6 @@ body{
     width:100%;
   
 }
-
 .App{
     height:100%;
     display:grid;
@@ -17,13 +16,14 @@ body{
     width:100%;
     /* grid-template-columns: 35%,65%; */
     display: flex;
-    /* flex-direction: column; */
-    /* justify-content:center; */
-    /* align-content:center; */
+    flex-direction: column;
+    justify-content:center;
+    align-content:center;
 }
 .weather-today{
     height:100%;
     background-color:#1E213A;
+    /* position:absolute; */
 }
 .container{
     padding:1rem;
@@ -60,12 +60,13 @@ body{
 }
 .inputBtn{
   width: 5rem; 
+  cursor:pointer;
 }
 .tempmin_max, .location{
     color:#A09FB1;
     font-weight:600;
     font-size:.9rem;
 }
-.App .highlights{
-    background-color:yellow !important ;
+.highlights{
+    background-color:black;
 }
